@@ -1,0 +1,9 @@
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=config/params.yaml
+    deps:
+    - src/get_data.py
+    - src/load_data.py
+    - house_prices/train.csv
+    outs:
+    - data/raw/train.csv

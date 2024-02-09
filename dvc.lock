@@ -1,0 +1,22 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=config/params.yaml
+    deps:
+    - path: house_prices/train.csv
+      hash: md5
+      md5: 80ccab65fb115cbad143dbbd2bcd5577
+      size: 460676
+    - path: src/get_data.py
+      hash: md5
+      md5: e5089540b8a7da9b4b2f77be20b31a2d
+      size: 789
+    - path: src/load_data.py
+      hash: md5
+      md5: 86f9274f6012588d5904a5b334802ad7
+      size: 654
+    outs:
+    - path: data/raw/train.csv
+      hash: md5
+      md5: c05e34fb61fb335139782ab73a5c73bb
+      size: 452815
