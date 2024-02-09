@@ -20,3 +20,23 @@ stages:
       hash: md5
       md5: c05e34fb61fb335139782ab73a5c73bb
       size: 452815
+  split_data:
+    cmd: python src/split_data.py --config=config/params.yaml
+    deps:
+    - path: data/raw/train.csv
+      hash: md5
+      md5: c05e34fb61fb335139782ab73a5c73bb
+      size: 452815
+    - path: src/split_data.py
+      hash: md5
+      md5: c4d16d0b098d2bca2dc70b2eea063426
+      size: 1158
+    outs:
+    - path: data/processed/test_house_prices.csv
+      hash: md5
+      md5: 20b886d1f500671bd3b8adedc4bc4dab
+      size: 90995
+    - path: data/processed/train_house_prices.csv
+      hash: md5
+      md5: 9965b8e88fa615e1719b96b853656fea
+      size: 362676
