@@ -17,3 +17,4 @@ seaborn
 scikit-learn
 joblib
 pyyaml
+ipykernel

@@ -1,0 +1,22 @@
+base:
+  project: dvc_learn
+  random_state: 42
+  target_col: TARGET
+
+load_data:
+  s3_dataset_csv: house_prices/train.csv
+
+split_data:
+  train_path: data/processed/train_house_prices.csv
+  test_path: data/processed/test_house_prices.csv
+  test_size: 0.2
+
+estimators:
+  RandomForestRegressor:
+  params:
+     max_depth: 20 
+     max_features: 0.5 
+     min_samples_split: 2 
+     n_estimators: 200
+
+model_dir: saved_models 
