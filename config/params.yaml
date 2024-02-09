@@ -3,8 +3,8 @@ base:
   random_state: 42
   target_col: TARGET
 
-load_data:
-  s3_dataset_csv: house_prices/train.csv
+data_source:
+  s3_source: house_prices/train.csv
 
 split_data:
   train_path: data/processed/train_house_prices.csv

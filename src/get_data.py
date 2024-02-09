@@ -2,6 +2,7 @@ import os
 import argparse
 import yaml
 import logging
+import pandas as pd
 
 
 def read_params(config_path):
@@ -9,16 +10,18 @@ def read_params(config_path):
         config = yaml.safe_load(yaml_file)
     return config
 
-def main(config_path, datascourse):
+def main(config_path, datasource):
     config = read_params(config_path)
-    print(config)
-
+    #print(config)
+    data_path = config["data_source"]["s3_source"]
+    df = pd.read_csv(data_path, sep=",", encoding="utf-8")
+    print(df.head())
 
 if __name__=="__main__":
     args = argparse.ArgumentParser()
     default_config_path = os.path.join("config", "params.yaml")
     args.add_argument("--config", default=default_config_path)
-    args.add_argument("--datascourse", default=None)
+    args.add_argument("--datasource", default=None)
 
     parsed_args = args.parse_args()
-    main(config_path=parsed_args.config, datascourse=parsed_args.datascourse)
+    main(config_path=parsed_args.config, datasource=parsed_args.datasource)
