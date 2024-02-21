@@ -9,8 +9,8 @@ stages:
       size: 460676
     - path: src/get_data.py
       hash: md5
-      md5: e5089540b8a7da9b4b2f77be20b31a2d
-      size: 789
+      md5: ee5d01fe2319f1485ed3a4468ecf7cf6
+      size: 790
     - path: src/load_data.py
       hash: md5
       md5: 86f9274f6012588d5904a5b334802ad7
@@ -29,8 +29,8 @@ stages:
       size: 452815
     - path: src/split_data.py
       hash: md5
-      md5: c4d16d0b098d2bca2dc70b2eea063426
-      size: 1158
+      md5: 1ae88b40e379732e263d612c25f84637
+      size: 1159
     outs:
     - path: data/processed/test_house_prices.csv
       hash: md5
