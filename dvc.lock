@@ -1,7 +1,7 @@
 schema: '2.0'
 stages:
   load_data:
-    cmd: python src/load_data.py --config=config/params.yaml
+    cmd: python src/load_data.py --config=params.yaml
     deps:
     - path: house_prices/train.csv
       hash: md5
@@ -9,19 +9,19 @@ stages:
       size: 460676
     - path: src/get_data.py
       hash: md5
-      md5: ee5d01fe2319f1485ed3a4468ecf7cf6
-      size: 790
+      md5: 18703be4a361626c144b461072c337a8
+      size: 780
     - path: src/load_data.py
       hash: md5
-      md5: 86f9274f6012588d5904a5b334802ad7
-      size: 654
+      md5: 15ac090cc209ce39563ae514ec2c8624
+      size: 644
     outs:
     - path: data/raw/train.csv
       hash: md5
       md5: c05e34fb61fb335139782ab73a5c73bb
       size: 452815
   split_data:
-    cmd: python src/split_data.py --config=config/params.yaml
+    cmd: python src/split_data.py --config=params.yaml
     deps:
     - path: data/raw/train.csv
       hash: md5
@@ -29,14 +29,48 @@ stages:
       size: 452815
     - path: src/split_data.py
       hash: md5
-      md5: 1ae88b40e379732e263d612c25f84637
-      size: 1159
+      md5: c51fb67ac7579858b06333b0672dd08e
+      size: 2893
     outs:
     - path: data/processed/test_house_prices.csv
       hash: md5
-      md5: 20b886d1f500671bd3b8adedc4bc4dab
-      size: 90995
+      md5: e8f390185bdef2a49ba0a35cb0e67949
+      size: 497594
     - path: data/processed/train_house_prices.csv
       hash: md5
-      md5: 9965b8e88fa615e1719b96b853656fea
-      size: 362676
+      md5: c4a309ab61f7c16b3a420420ae311823
+      size: 1987251
+  train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - path: data/processed/test_house_prices.csv
+      hash: md5
+      md5: e8f390185bdef2a49ba0a35cb0e67949
+      size: 497594
+    - path: data/processed/train_house_prices.csv
+      hash: md5
+      md5: c4a309ab61f7c16b3a420420ae311823
+      size: 1987251
+    - path: src/train_and_evaluate.py
+      hash: md5
+      md5: 3be22a68cff946b5c31cd2d600ed9fc8
+      size: 2936
+    params:
+      params.yaml:
+        estimators.RandomForestRegressor.params.max_depth: 20
+        estimators.RandomForestRegressor.params.max_features: 0.5
+        estimators.RandomForestRegressor.params.min_samples_split: 2
+        estimators.RandomForestRegressor.params.n_estimators: 200
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 9a57500ecd02f2ba8ad858dac6aafdd5
+      size: 18213697
+    - path: reports/params.json
+      hash: md5
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: reports/scores.json
+      hash: md5
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0

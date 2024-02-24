@@ -1,7 +1,7 @@
 base:
   project: dvc_learn
   random_state: 42
-  target_col: TARGET
+  target_col: SalePrice
 
 data_source:
   s3_source: house_prices/train.csv

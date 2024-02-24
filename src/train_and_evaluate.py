@@ -7,8 +7,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import LabelEncoder, StandardScaler, Normalizer, OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
 from get_data import read_params
 import argparse
 import joblib
@@ -58,6 +57,7 @@ def train_and_evaluate(config_path):
 
     scores_file = config["reports"]["scores"]
     params_file = config["reports"]["params"]
+    
     with open(scores_file, "w") as f:
         scores = {
             "rmse": rmse,
@@ -72,12 +72,13 @@ def train_and_evaluate(config_path):
             "r2": r2
         }
 
-    model_path = os.join(model_dir, "model.joblib")
+    model_path = os.path.join(model_dir, "model.joblib")
+    joblib.dump(lr, model_path)
 
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
-    default_config_path = os.path.join("config", "params.yaml")
+    default_config_path = os.path.join("params.yaml")
     args.add_argument("--config", default=default_config_path)
     #args.add_argument("--datasource", default=None)
     parsed_args = args.parse_args()

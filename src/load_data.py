@@ -13,7 +13,7 @@ def load_and_save(config_path):
 
 if __name__ == "__main__":
     args= argparse.ArgumentParser()
-    default_config_path = os.path.join("config", "params.yaml")
+    default_config_path = os.path.join("params.yaml")
     args.add_argument("--config", default=default_config_path)
     parsed_args = args.parse_args()
     load_and_save(config_path=parsed_args.config)
