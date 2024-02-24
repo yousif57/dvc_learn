@@ -64,13 +64,16 @@ def train_and_evaluate(config_path):
             "mae": mae,
             "r2": r2
         }
-    
+        json.dump(scores, f, indent=4)
+
     with open(params_file, "w") as f:
-        scores = {
-            "rmse": rmse,
-            "mae": mae,
-            "r2": r2
+        params = {
+            "max_depth": max_depth,
+            "max_features": max_features,
+            "min_samples_split": min_samples_split,
+            "n_estimators":n_estimators
         }
+        json.dump(params, f, indent=4)
 
     model_path = os.path.join(model_dir, "model.joblib")
     joblib.dump(lr, model_path)

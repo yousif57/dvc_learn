@@ -18,3 +18,5 @@ scikit-learn
 joblib
 pyyaml
 ipykernel
+pytest
+tox
