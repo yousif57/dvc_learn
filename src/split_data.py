@@ -67,9 +67,26 @@ def split_and_saved_data(config_path):
     target = config['base']['target_col']
 
     row_df = pd.read_csv(raw_data_path, sep=",")
+    row_df = row_df.drop(["Id"], axis=1)
 
-    df = transform(row_df, target)
+    # categorical columns
+    categorical_columns = row_df.columns[row_df.dtypes == 'object']
 
+
+    # view categorigal columns with large number of missing value
+    categ_info = view(row_df[categorical_columns])
+
+    #drop unwanted columns
+    categ_keep = categ_info[categ_info["missing(%)"] <= 45].index
+    categ_drop = categ_info[categ_info["missing(%)"] >= 45].index
+    df = row_df.drop(list(categ_drop), axis=1)
+
+
+    #fill missing value in others categorigal columns 
+    df[categ_keep] = df[categ_keep].fillna("ffill", axis=1)
+
+
+    #df = transform(row_df, target) will not use it for now
     train, test = train_test_split(df, test_size=split_ratio, random_state=random_state)
     train.to_csv(train_data_path, sep=",", index=False)
     test.to_csv(test_data_path, sep=",", index=False)

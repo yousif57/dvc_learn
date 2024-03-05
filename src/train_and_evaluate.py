@@ -8,10 +8,33 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder, StandardScaler, Normalizer, OneHotEncoder
 from get_data import read_params
 import argparse
 import joblib
 import json
+
+def model_pipline(df, model):
+
+    categorical_columns = df.columns[df.dtypes == 'object']
+    numerical_columns = df.columns[df.dtypes != 'object']
+
+    model_pipline = Pipeline([
+        ("preprocessor", ColumnTransformer(
+            transformers=[
+                ("categorical", OneHotEncoder(sparse_output=False, handle_unknown='ignore'), categorical_columns),
+                ("numerical", 
+                 Pipeline([("impute", SimpleImputer(strategy="median")), 
+                           ("scaling", StandardScaler())]), 
+                           numerical_columns)]
+        )),
+        ("regressor", model)
+    ])
+
+    return model_pipline
 
 
 def eval_metrics(actual, pred):
@@ -45,9 +68,11 @@ def train_and_evaluate(config_path):
     test_x = test.drop(target, axis=1)
 
     lr = RandomForestRegressor(max_depth=max_depth, max_features=max_features, min_samples_split=min_samples_split, n_estimators=n_estimators, random_state=random_state)
-    
-    lr.fit(train_x, train_y)
-    predicted_qualities = lr.predict(test_x)
+
+    final_model = model_pipline(train_x, lr)
+        
+    final_model.fit(train_x, train_y)
+    predicted_qualities = final_model.predict(test_x)
     (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
 
     print("RandomForestRegressor model (max_depth=%f, max_features=%f, min_samples_split=%f, n_estimators=%f):" % (max_depth, max_features, min_samples_split, n_estimators))

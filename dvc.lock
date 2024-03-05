@@ -9,52 +9,52 @@ stages:
       size: 460676
     - path: src/get_data.py
       hash: md5
-      md5: 18703be4a361626c144b461072c337a8
-      size: 780
+      md5: 85a6db00abacb41cdd68b2f232d9af49
+      size: 753
     - path: src/load_data.py
       hash: md5
-      md5: 15ac090cc209ce39563ae514ec2c8624
-      size: 644
+      md5: 695c8b3593362d7ceeec91a27e2e1986
+      size: 626
     outs:
     - path: data/raw/train.csv
       hash: md5
-      md5: c05e34fb61fb335139782ab73a5c73bb
-      size: 452815
+      md5: 3696fa8204d02c08bc39bc816a423655
+      size: 451354
   split_data:
     cmd: python src/split_data.py --config=params.yaml
     deps:
     - path: data/raw/train.csv
       hash: md5
-      md5: c05e34fb61fb335139782ab73a5c73bb
-      size: 452815
+      md5: 3696fa8204d02c08bc39bc816a423655
+      size: 451354
     - path: src/split_data.py
       hash: md5
-      md5: c51fb67ac7579858b06333b0672dd08e
-      size: 2893
+      md5: 1dce5c42fce23fc953ad9345927bf258
+      size: 3412
     outs:
     - path: data/processed/test_house_prices.csv
       hash: md5
-      md5: e8f390185bdef2a49ba0a35cb0e67949
-      size: 497594
+      md5: a2b6678834569c444116ab2790e1ac2e
+      size: 43828
     - path: data/processed/train_house_prices.csv
       hash: md5
-      md5: c4a309ab61f7c16b3a420420ae311823
-      size: 1987251
+      md5: 839709cfae84668f65eb859e9a336b82
+      size: 388555
   train_and_evaluate:
     cmd: python src/train_and_evaluate.py --config=params.yaml
     deps:
     - path: data/processed/test_house_prices.csv
       hash: md5
-      md5: e8f390185bdef2a49ba0a35cb0e67949
-      size: 497594
+      md5: a2b6678834569c444116ab2790e1ac2e
+      size: 43828
     - path: data/processed/train_house_prices.csv
       hash: md5
-      md5: c4a309ab61f7c16b3a420420ae311823
-      size: 1987251
+      md5: 839709cfae84668f65eb859e9a336b82
+      size: 388555
     - path: src/train_and_evaluate.py
       hash: md5
-      md5: 37bf2ed80ae3d805eea4549b83d00383
-      size: 3112
+      md5: 0f58e92840237c3b7e9e24923e4f2e8c
+      size: 4150
     params:
       params.yaml:
         estimators.RandomForestRegressor.params.max_depth: 20
@@ -64,13 +64,13 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 9a57500ecd02f2ba8ad858dac6aafdd5
-      size: 18213697
+      md5: 9039c92d7089fd8271f8163f983f2a6d
+      size: 23004385
     - path: reports/params.json
       hash: md5
-      md5: 7f043d5b0bb8a125a52ca9da355a0b76
-      size: 106
+      md5: 1961655dc782ad24fb40745579c3a6d3
+      size: 101
     - path: reports/scores.json
       hash: md5
-      md5: 03f74b90db61c441680f034bf701b828
-      size: 98
+      md5: 1e9e5efd6a31acfebea188a2bbea07c5
+      size: 94
