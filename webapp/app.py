@@ -3,6 +3,7 @@ import os
 import yaml
 import joblib
 import numpy as np
+import pandas as pd
 
 params_path = "params.yaml"
 webapp_root = "webapp"
@@ -20,9 +21,9 @@ def read_params(config_path):
 def predict(data):
     config = read_params(params_path)
     model_dir_path = config["webapp_model_dir"]
-    model = joblib.laod(model_dir_path)
+    model = joblib.load(model_dir_path)
+    #data = model.named_steps["preprocessor"].transform(data)
     prediction = model.predict(data)
-    predict(prediction)
     return prediction
 
 def api_response(request):
@@ -43,9 +44,10 @@ def index():
     if request.method == "POST":
         try:
             if request.form:
-                data = dict(request.form).values()
-                data = [list(map(float, data))]
-                response = predict(data)
+                data = dict(request.form)
+                data = pd.DataFrame(data, index=[1])
+                print(data)
+                response = predict(data)[0]
                 return render_template("index.html", response=response)
 
             elif request.json:

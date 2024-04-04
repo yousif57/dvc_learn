@@ -29,32 +29,32 @@ stages:
       size: 451354
     - path: src/split_data.py
       hash: md5
-      md5: 1dce5c42fce23fc953ad9345927bf258
-      size: 3412
+      md5: a1276adb5f4e89cfc30b394d924183f6
+      size: 3558
     outs:
     - path: data/processed/test_house_prices.csv
       hash: md5
-      md5: a2b6678834569c444116ab2790e1ac2e
-      size: 43828
+      md5: b757442c3d976f7da0db1f0ee7c1d1a1
+      size: 35287
     - path: data/processed/train_house_prices.csv
       hash: md5
-      md5: 839709cfae84668f65eb859e9a336b82
-      size: 388555
+      md5: 7a5bcdcd6c1add66ce230d4704612d5f
+      size: 140030
   train_and_evaluate:
     cmd: python src/train_and_evaluate.py --config=params.yaml
     deps:
     - path: data/processed/test_house_prices.csv
       hash: md5
-      md5: a2b6678834569c444116ab2790e1ac2e
-      size: 43828
+      md5: b757442c3d976f7da0db1f0ee7c1d1a1
+      size: 35287
     - path: data/processed/train_house_prices.csv
       hash: md5
-      md5: 839709cfae84668f65eb859e9a336b82
-      size: 388555
+      md5: 7a5bcdcd6c1add66ce230d4704612d5f
+      size: 140030
     - path: src/train_and_evaluate.py
       hash: md5
-      md5: 0f58e92840237c3b7e9e24923e4f2e8c
-      size: 4150
+      md5: 02d271281fa3aeb50eae46cc2577fbd0
+      size: 3841
     params:
       params.yaml:
         estimators.RandomForestRegressor.params.max_depth: 20
@@ -64,13 +64,13 @@ stages:
     outs:
     - path: models/model.joblib
       hash: md5
-      md5: 9039c92d7089fd8271f8163f983f2a6d
-      size: 23004385
+      md5: 10bbb8116f5fdc24faf57f395dd54d33
+      size: 18236871
     - path: reports/params.json
       hash: md5
       md5: 1961655dc782ad24fb40745579c3a6d3
       size: 101
     - path: reports/scores.json
       hash: md5
-      md5: 1e9e5efd6a31acfebea188a2bbea07c5
-      size: 94
+      md5: 610ff813607c18d9dd7f7fe73dab4767
+      size: 95

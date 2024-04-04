@@ -57,6 +57,15 @@ def transform(df, target):
     return final_data
 
 
+selected_feat = ['OverallQual', 'BsmtFinSF1', 'TotalBsmtSF', 'GrLivArea', 
+                 'MSZoning', 'LotShape', 'LotConfig', 'Neighborhood', 'BldgType', 
+                 'HouseStyle', 'RoofStyle', 'RoofMatl', 'Exterior1st', 'Exterior2nd', 
+                 'ExterQual', 'BsmtQual', 'BsmtExposure', 'BsmtFinType1', 'KitchenQual', 
+                 'GarageType', 'GarageFinish', 'GarageCond', 'SaleType', "SalePrice"]
+
+missing = {"BsmtQual":"No Basement","BsmtExposure":"No Basement", "BsmtFinType1":"No Basement",
+ "GarageType": "No Garage", "GarageFinish": "No Garage", "GarageCond": "No Garage"}
+
 def split_and_saved_data(config_path):
     config = read_params(config_path)
     test_data_path = config["split_data"]["test_path"]
@@ -67,23 +76,11 @@ def split_and_saved_data(config_path):
     target = config['base']['target_col']
 
     row_df = pd.read_csv(raw_data_path, sep=",")
-    row_df = row_df.drop(["Id"], axis=1)
 
-    # categorical columns
-    categorical_columns = row_df.columns[row_df.dtypes == 'object']
-
-
-    # view categorigal columns with large number of missing value
-    categ_info = view(row_df[categorical_columns])
-
-    #drop unwanted columns
-    categ_keep = categ_info[categ_info["missing(%)"] <= 45].index
-    categ_drop = categ_info[categ_info["missing(%)"] >= 45].index
-    df = row_df.drop(list(categ_drop), axis=1)
-
+    df = row_df[selected_feat]
 
     #fill missing value in others categorigal columns 
-    df[categ_keep] = df[categ_keep].fillna("ffill", axis=1)
+    df = df.fillna(value=missing)
 
 
     #df = transform(row_df, target) will not use it for now

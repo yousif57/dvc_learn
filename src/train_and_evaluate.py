@@ -26,10 +26,7 @@ def model_pipline(df, model):
         ("preprocessor", ColumnTransformer(
             transformers=[
                 ("categorical", OneHotEncoder(sparse_output=False, handle_unknown='ignore'), categorical_columns),
-                ("numerical", 
-                 Pipeline([("impute", SimpleImputer(strategy="median")), 
-                           ("scaling", StandardScaler())]), 
-                           numerical_columns)]
+                ("numerical",SimpleImputer(strategy="median"), numerical_columns)]
         )),
         ("regressor", model)
     ])
@@ -101,7 +98,7 @@ def train_and_evaluate(config_path):
         json.dump(params, f, indent=4)
 
     model_path = os.path.join(model_dir, "model.joblib")
-    joblib.dump(lr, model_path)
+    joblib.dump(final_model, model_path)
 
 
 if __name__ == "__main__":

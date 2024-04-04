@@ -12,7 +12,7 @@ load_data:
 split_data:
   train_path: data/processed/train_house_prices.csv
   test_path: data/processed/test_house_prices.csv
-  test_size: 0.1
+  test_size: 0.2
 
 estimators:
   RandomForestRegressor:
@@ -28,4 +28,4 @@ reports:
   params: reports/params.json
   scores: reports/scores.json
 
-webapp_model_dir: src\prediction_service\model.joblib
+webapp_model_dir: models/model.joblib
