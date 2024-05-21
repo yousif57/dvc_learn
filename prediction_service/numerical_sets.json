@@ -1,0 +1,154 @@
+{
+    "Id": {
+        "min": 1.0,
+        "max": 1460.0
+    },
+    "MSSubClass": {
+        "min": 20.0,
+        "max": 190.0
+    },
+    "LotFrontage": {
+        "min": 21.0,
+        "max": 313.0
+    },
+    "LotArea": {
+        "min": 1300.0,
+        "max": 215245.0
+    },
+    "OverallQual": {
+        "min": 1.0,
+        "max": 10.0
+    },
+    "OverallCond": {
+        "min": 1.0,
+        "max": 9.0
+    },
+    "YearBuilt": {
+        "min": 1872.0,
+        "max": 2010.0
+    },
+    "YearRemodAdd": {
+        "min": 1950.0,
+        "max": 2010.0
+    },
+    "MasVnrArea": {
+        "min": 0.0,
+        "max": 1600.0
+    },
+    "BsmtFinSF1": {
+        "min": 0.0,
+        "max": 5644.0
+    },
+    "BsmtFinSF2": {
+        "min": 0.0,
+        "max": 1474.0
+    },
+    "BsmtUnfSF": {
+        "min": 0.0,
+        "max": 2336.0
+    },
+    "TotalBsmtSF": {
+        "min": 0.0,
+        "max": 6110.0
+    },
+    "1stFlrSF": {
+        "min": 334.0,
+        "max": 4692.0
+    },
+    "2ndFlrSF": {
+        "min": 0.0,
+        "max": 2065.0
+    },
+    "LowQualFinSF": {
+        "min": 0.0,
+        "max": 572.0
+    },
+    "GrLivArea": {
+        "min": 334.0,
+        "max": 5642.0
+    },
+    "BsmtFullBath": {
+        "min": 0.0,
+        "max": 3.0
+    },
+    "BsmtHalfBath": {
+        "min": 0.0,
+        "max": 2.0
+    },
+    "FullBath": {
+        "min": 0.0,
+        "max": 3.0
+    },
+    "HalfBath": {
+        "min": 0.0,
+        "max": 2.0
+    },
+    "BedroomAbvGr": {
+        "min": 0.0,
+        "max": 8.0
+    },
+    "KitchenAbvGr": {
+        "min": 0.0,
+        "max": 3.0
+    },
+    "TotRmsAbvGrd": {
+        "min": 2.0,
+        "max": 14.0
+    },
+    "Fireplaces": {
+        "min": 0.0,
+        "max": 3.0
+    },
+    "GarageYrBlt": {
+        "min": 1900.0,
+        "max": 2010.0
+    },
+    "GarageCars": {
+        "min": 0.0,
+        "max": 4.0
+    },
+    "GarageArea": {
+        "min": 0.0,
+        "max": 1418.0
+    },
+    "WoodDeckSF": {
+        "min": 0.0,
+        "max": 857.0
+    },
+    "OpenPorchSF": {
+        "min": 0.0,
+        "max": 547.0
+    },
+    "EnclosedPorch": {
+        "min": 0.0,
+        "max": 552.0
+    },
+    "3SsnPorch": {
+        "min": 0.0,
+        "max": 508.0
+    },
+    "ScreenPorch": {
+        "min": 0.0,
+        "max": 480.0
+    },
+    "PoolArea": {
+        "min": 0.0,
+        "max": 738.0
+    },
+    "MiscVal": {
+        "min": 0.0,
+        "max": 15500.0
+    },
+    "MoSold": {
+        "min": 1.0,
+        "max": 12.0
+    },
+    "YrSold": {
+        "min": 2006.0,
+        "max": 2010.0
+    },
+    "SalePrice": {
+        "min": 34900.0,
+        "max": 755000.0
+    }
+}
