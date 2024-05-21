@@ -4,6 +4,7 @@ import yaml
 import joblib
 import numpy as np
 import pandas as pd
+from prediction_service import prediction
 
 params_path = "params.yaml"
 webapp_root = "webapp"
@@ -44,20 +45,18 @@ def index():
     if request.method == "POST":
         try:
             if request.form:
-                data = dict(request.form)
-                data = pd.DataFrame(data, index=[1])
-                print(data)
-                response = predict(data)[0]
+                data_req = dict(request.form)
+                response = prediction.form_response(data_req)
                 return render_template("index.html", response=response)
 
             elif request.json:
-                response = api_response(request)
+                response = prediction.api_response(request.json)
                 return jsonify(response)
 
         except Exception as e:
             print(e)
-            error = {"error": "Something went wrong try again"}
-            return render_template("404.html", error=error)
+            #error = {"error": "Something went wrong try again"}
+            return render_template("404.html", error=e)
     else:
         return render_template("index.html")
 
