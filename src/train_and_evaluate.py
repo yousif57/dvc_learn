@@ -1,7 +1,3 @@
-# load the train and test
-# train algo
-# save metrices, params
-
 import os
 import pandas as pd
 import numpy as np
@@ -16,6 +12,8 @@ from get_data import read_params
 import argparse
 import joblib
 import json
+import mlflow
+from urllib.parse import urlparse
 
 def model_pipline(df, model):
 
@@ -64,41 +62,48 @@ def train_and_evaluate(config_path):
     train_x = train.drop(target, axis=1)
     test_x = test.drop(target, axis=1)
 
-    lr = RandomForestRegressor(max_depth=max_depth, max_features=max_features, min_samples_split=min_samples_split, n_estimators=n_estimators, random_state=random_state)
+    # mlflow setup
+    mlflow_config = config["mlflow_config"]
+    remote_server_uri = mlflow_config["remote_server_uri"]
 
-    final_model = model_pipline(train_x, lr)
-        
-    final_model.fit(train_x, train_y)
-    predicted_qualities = final_model.predict(test_x)
-    (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+    mlflow.set_tracking_uri(remote_server_uri)
 
-    print("RandomForestRegressor model (max_depth=%f, max_features=%f, min_samples_split=%f, n_estimators=%f):" % (max_depth, max_features, min_samples_split, n_estimators))
-    print("  RMSE: %s" % rmse)
-    print("  MAE: %s" % mae)
-    print("  R2: %s" % r2)
+    mlflow.set_experiment(mlflow_config["experiment_name"])
 
-    scores_file = config["reports"]["scores"]
-    params_file = config["reports"]["params"]
-    
-    with open(scores_file, "w") as f:
-        scores = {
-            "rmse": rmse,
-            "mae": mae,
-            "r2": r2
-        }
-        json.dump(scores, f, indent=4)
+    with mlflow.start_run(run_name=mlflow_config["run_name"]) as mlops_run:
 
-    with open(params_file, "w") as f:
+        lr = RandomForestRegressor(max_depth=max_depth, max_features=max_features, min_samples_split=min_samples_split, n_estimators=n_estimators, random_state=random_state)
+
+        final_model = model_pipline(train_x, lr)
+            
+        final_model.fit(train_x, train_y)
+        predicted_qualities = final_model.predict(test_x)
+        (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+
         params = {
-            "max_depth": max_depth,
-            "max_features": max_features,
-            "min_samples_split": min_samples_split,
-            "n_estimators":n_estimators
-        }
-        json.dump(params, f, indent=4)
+                "max_depth": max_depth,
+                "max_features": max_features,
+                "min_samples_split": min_samples_split,
+                "n_estimators":n_estimators}
+        
+        mlflow.log_params(params)
 
-    model_path = os.path.join(model_dir, "model.joblib")
-    joblib.dump(final_model, model_path)
+        scores = {
+                "rmse": rmse,
+                "mae": mae,
+                "r2": r2}
+
+        mlflow.log_metrics(scores)
+
+        tracking_url_store = urlparse(mlflow.get_artifact_uri()).scheme
+        if tracking_url_store != "file":
+            mlflow.sklearn.log_model(lr, "model", registered_model_name=mlflow_config["registered_model_name"])
+        else:
+            mlflow.sklearn.load_model(lr, "model")
+
+
+    # model_path = os.path.join(model_dir, "model.joblib")
+    # joblib.dump(final_model, model_path)
 
 
 if __name__ == "__main__":
